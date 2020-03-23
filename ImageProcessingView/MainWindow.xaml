@@ -22,8 +22,8 @@
                   ItemsSource="{Binding Operations , Mode=TwoWay}"
                   SelectedItem="{Binding SelectedOperation, Mode=TwoWay}" VerticalAlignment="Top"/>
 
-        <local:Images Visibility="Visible"  x:Name="ImagesUserControl" Margin="315,100,10,113"></local:Images>
-        <local:Charts Visibility="Collapsed" x:Name="ChartsUserControl" Margin="315,100,10,113"></local:Charts>
+        <local:Images Visibility="Visible"  x:Name="ImagesUserControl" Margin="305,10,10,100"></local:Images>
+        <local:Charts Visibility="Collapsed" x:Name="ChartsUserControl" Margin="305,10,10,100"></local:Charts>
 
         <Button
             Style="{StaticResource MaterialDesignRaisedLightButton}"
@@ -75,13 +75,13 @@
                 Content="HISTOGRAMS" />
         </StackPanel>
 
-        <operations:Brightness x:Name="Brightness" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Brightness>
-        <operations:Contrast x:Name="Contrast" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Contrast>
-        <operations:Negative x:Name="Negative" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Negative>
-        <operations:MedianFilter x:Name="MedianFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:MedianFilter>
-        <operations:AverageFilter x:Name="AverageFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:AverageFilter>
-        <operations:Convolution x:Name="ConvolutionFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Convolution>
-        <operations:HistogramRayleigh x:Name="HistogramRayleigh" Visibility="Collapsed" Margin="10,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:HistogramRayleigh>
-        <operations:Sobel x:Name="SobelFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Sobel>
+        <operations:Brightness x:Name="Brightness" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Brightness>
+        <operations:Contrast x:Name="Contrast" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Contrast>
+        <operations:Negative x:Name="Negative" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Negative>
+        <operations:MedianFilter x:Name="MedianFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:MedianFilter>
+        <operations:AverageFilter x:Name="AverageFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:AverageFilter>
+        <operations:Convolution x:Name="ConvolutionFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Convolution>
+        <operations:HistogramRayleigh x:Name="HistogramRayleigh" Visibility="Collapsed" Margin="8,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:HistogramRayleigh>
+        <operations:Sobel x:Name="SobelFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Sobel>
     </Grid>
 </Window>

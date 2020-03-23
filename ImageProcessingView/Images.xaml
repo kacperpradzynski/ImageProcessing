@@ -13,12 +13,58 @@
              Background="{DynamicResource MaterialDesignPaper}"
             FontFamily="{DynamicResource MaterialDesignFont}"
              mc:Ignorable="d" 
-             d:DesignHeight="470" d:DesignWidth="950">
+             d:DesignHeight="520" d:DesignWidth="950">
     <Grid>
-        <materialDesign:Card VerticalAlignment="Bottom" Height="460" Width="460" Margin="0,0,480,5" HorizontalAlignment="Right">
+        <GroupBox
+            Header="Card Group Box"
+            Style="{DynamicResource MaterialDesignCardGroupBox}"
+            Margin="0,0,478,2" Height="508" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="465">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Kind="ImageArea"
+                            Height="24"
+                            Width="24"
+                            Margin="165 0 0 0"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+          Margin="8,0,0,0"
+          VerticalAlignment="Center" 
+          Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+          Text="Input Image" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+        </GroupBox>
+        <GroupBox
+            Header="Card Group Box"
+            Style="{DynamicResource MaterialDesignCardGroupBox}"
+            Margin="0,0,3,2" Height="508" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="465">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Kind="ImageArea"
+                            Height="24"
+                            Width="24"
+                            Margin="159 0 0 0"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+          Margin="8,0,0,0"
+          VerticalAlignment="Center" 
+          Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+          Text="Output Image" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+        </GroupBox>
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth0" VerticalAlignment="Bottom" Height="460" Width="460" Margin="0,0,480,5" HorizontalAlignment="Right">
             <Image x:Name="inputImage" Source="{Binding BitmapImageInput}" />
         </materialDesign:Card>
-        <materialDesign:Card VerticalAlignment="Bottom" Height="460" Width="460" Margin="0,0,5,5" HorizontalAlignment="Right">
+        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth0" VerticalAlignment="Bottom" Height="460" Width="460" Margin="0,0,5,5" HorizontalAlignment="Right">
             <Image x:Name="outputImage" Source="{Binding BitmapImageOutput}" />
         </materialDesign:Card>
     </Grid>

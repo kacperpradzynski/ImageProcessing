@@ -6,8 +6,62 @@
              xmlns:local="clr-namespace:ImageProcessingView"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
-             d:DesignHeight="470" d:DesignWidth="950">
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+            TextElement.FontWeight="Regular"
+            TextElement.FontSize="13"
+            TextOptions.TextFormattingMode="Ideal"
+            TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+            FontFamily="{DynamicResource MaterialDesignFont}"
+             d:DesignHeight="520" d:DesignWidth="950">
     <Grid>
+        <GroupBox
+            Header="Card Group Box"
+            Style="{DynamicResource MaterialDesignCardGroupBox}"
+            Margin="0,0,478,2" Height="508" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="465">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Kind="ImageArea"
+                            Height="24"
+                            Width="24"
+                            Margin="165 0 0 0"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+          Margin="8,0,0,0"
+          VerticalAlignment="Center" 
+          Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+          Text="Input Image" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+        </GroupBox>
+        <GroupBox
+            Header="Card Group Box"
+            Style="{DynamicResource MaterialDesignCardGroupBox}"
+            Margin="0,0,3,2" Height="508" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="465">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel
+                        Orientation="Horizontal">
+                        <materialDesign:PackIcon
+                            Kind="ImageArea"
+                            Height="24"
+                            Width="24"
+                            Margin="159 0 0 0"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+          Margin="8,0,0,0"
+          VerticalAlignment="Center" 
+          Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+          Text="Output Image" />
+                    </StackPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+        </GroupBox>
         <lvc:CartesianChart Series="{Binding InputBlue}" VerticalAlignment="Bottom" Height="150" Width="460" Margin="0,0,480,5" HorizontalAlignment="Right" />
         <lvc:CartesianChart Series="{Binding InputGreen}" VerticalAlignment="Bottom" Height="150" Width="460" Margin="0,0,480,155" HorizontalAlignment="Right" />
         <lvc:CartesianChart Series="{Binding InputRed}" VerticalAlignment="Bottom" Height="150" Width="460" Margin="0,0,480,310" HorizontalAlignment="Right" />
