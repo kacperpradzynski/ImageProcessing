@@ -1,0 +1,87 @@
+﻿<Window x:Class="ImageProcessingView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageProcessingView"
+        xmlns:operations="clr-namespace:ImageProcessingView.Operations"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                  Margin="24,70,984,0"
+                  ItemsSource="{Binding Operations , Mode=TwoWay}"
+                  SelectedItem="{Binding SelectedOperation, Mode=TwoWay}" VerticalAlignment="Top"/>
+
+        <local:Images Visibility="Visible"  x:Name="ImagesUserControl" Margin="315,100,10,113"></local:Images>
+        <local:Charts Visibility="Collapsed" x:Name="ChartsUserControl" Margin="315,100,10,113"></local:Charts>
+
+        <Button
+            Style="{StaticResource MaterialDesignRaisedLightButton}"
+            Click="Open_Click"
+            VerticalAlignment="Bottom"
+            Margin="0,0,620,43"
+            HorizontalAlignment="Right"
+            Width="200">
+            SELECT IMAGE
+        </Button>
+        <Button
+            Style="{StaticResource MaterialDesignRaisedLightButton}"
+            Click="Save_Click"
+            x:Name="SaveButton"
+            IsEnabled="False"
+            VerticalAlignment="Bottom"
+            Margin="0,0,140,43"
+            HorizontalAlignment="Right"
+            Width="200">
+            SAVE IMAGE
+        </Button>
+        <Button
+            Click="Apply_Click"
+            Style="{StaticResource MaterialDesignRaisedLightButton}"
+            IsEnabled="False"
+            x:Name="ApplyButton"
+            VerticalAlignment="Bottom"
+            Margin="0,0,1010,629"
+            HorizontalAlignment="Right"
+            Width="200">
+            APPLY
+        </Button>
+
+        <StackPanel
+            Margin="0,0,374,623"
+            HorizontalAlignment="Right"
+            Width="218"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
+            <RadioButton
+                Style="{StaticResource MaterialDesignTabRadioButton}"
+                Margin="4"
+                IsChecked="{Binding ImagesView}"
+                Content="IMAGES" />
+            <RadioButton
+                Style="{StaticResource MaterialDesignTabRadioButton}"
+                Margin="4"
+                IsChecked="{Binding ChartsView}"
+                Content="HISTOGRAMS" />
+        </StackPanel>
+
+        <operations:Brightness x:Name="Brightness" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Brightness>
+        <operations:Contrast x:Name="Contrast" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Contrast>
+        <operations:Negative x:Name="Negative" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Negative>
+        <operations:MedianFilter x:Name="MedianFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:MedianFilter>
+        <operations:AverageFilter x:Name="AverageFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:AverageFilter>
+        <operations:Convolution x:Name="ConvolutionFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Convolution>
+        <operations:HistogramRayleigh x:Name="HistogramRayleigh" Visibility="Collapsed" Margin="10,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:HistogramRayleigh>
+        <operations:Sobel x:Name="SobelFilter" Visibility="Collapsed" Margin="10,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Sobel>
+    </Grid>
+</Window>
