@@ -25,20 +25,82 @@ namespace ImageProcessingView.Operations
     /// </summary>
     public partial class HistogramRayleigh : UserControl, IProcessing, INotifyPropertyChanged
     {
+        private bool _isRGB;
+
+        public bool IsRGB
+        {
+            get { return _isRGB; }
+            set
+            {
+                if (_isRGB != value)
+                {
+                    _isRGB = value;
+                    OnPropertyChanged();
+                    ChangeColor();
+                }
+            }
+        }
         public HistogramRayleigh()
         {
             InitializeComponent();
+            DataContext = this;
+            _isRGB = true;
+            IsRGB = false;
+            RedMin.Text = "0";
+            RedMax.Text = "255";
+            GreenMin.Text = "0";
+            GreenMax.Text = "255";
+            BlueMin.Text = "0";
+            BlueMax.Text = "255";
+            GrayMin.Text = "0";
+            GrayMax.Text = "255";
         }
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9.-]");
+            Regex regex = new Regex("[^0-9]");
             e.Handled = regex.IsMatch(e.Text);
         }
 
         public IProcessingStrategy GetOperationStrategy()
         {
-            return new RaleighOperator();
+            int minR, maxR, minG, maxG, minB, maxB;
+            if (IsRGB)
+            {
+                minR = Int32.Parse(RedMin.Text);
+                maxR = Int32.Parse(RedMax.Text);
+                minG = Int32.Parse(GreenMin.Text);
+                maxG = Int32.Parse(GreenMax.Text);
+                minB = Int32.Parse(BlueMin.Text);
+                maxB = Int32.Parse(BlueMax.Text);
+            } else
+            {
+                minR = Int32.Parse(GrayMin.Text);
+                maxR = Int32.Parse(GrayMax.Text);
+                minG = Int32.Parse(GrayMin.Text);
+                maxG = Int32.Parse(GrayMax.Text);
+                minB = Int32.Parse(GrayMin.Text);
+                maxB = Int32.Parse(GrayMax.Text);
+            }
+            return new RaleighOperator(minR, maxR, minG, maxG, minB, maxB);
+        }
+
+        private void ChangeColor()
+        {
+            GrayGroup.Visibility = Visibility.Collapsed;
+            RedGroup.Visibility = Visibility.Collapsed;
+            GreenGroup.Visibility = Visibility.Collapsed;
+            BlueGroup.Visibility = Visibility.Collapsed;
+
+            if (_isRGB)
+            {
+                RedGroup.Visibility = Visibility.Visible;
+                GreenGroup.Visibility = Visibility.Visible;
+                BlueGroup.Visibility = Visibility.Visible;
+            } else
+            {
+                GrayGroup.Visibility = Visibility.Visible;
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

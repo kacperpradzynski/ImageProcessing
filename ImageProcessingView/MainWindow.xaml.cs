@@ -105,6 +105,7 @@ namespace ImageProcessingView
                     _bitmapImageInput = value;
                     OnPropertyChanged();
                     ImagesUserControl.BitmapImageInput = value;
+                    HistogramRayleigh.IsRGB = ImageHelper.GetBitsPerPixel(input.PixelFormat) > 8;
                 }
             }
         }

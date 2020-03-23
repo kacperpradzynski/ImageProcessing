@@ -24,10 +24,85 @@
             Style="{StaticResource MaterialDesignSwitchDarkToggleButton}"
             VerticalAlignment="Top" HorizontalAlignment="Center"
             ToolTip="MaterialDesignSwitchDarkToggleButton"
-            IsChecked="True"
+            IsChecked="{Binding IsRGB, Mode=TwoWay}"
             Grid.Column="1"/>
         <TextBlock Text='RGB' VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="2"/>
-       
+        <GroupBox
+            x:Name="GrayGroup"
+            Header="Gray"
+            Style="{DynamicResource MaterialDesignGroupBox}"
+            Margin="16 40 16 0"
+            Height="100"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Top"
+            Visibility="Collapsed"
+            materialDesign:ColorZoneAssist.Mode="Custom"
+            materialDesign:ColorZoneAssist.Background="Gray"
+            materialDesign:ColorZoneAssist.Foreground="Black">
+            <TextBlock>
+                <TextBlock FontWeight="Bold" Text='Min:' Margin="10 0 0 0" />
+                <TextBox x:Name="GrayMin" TextAlignment="Center"  PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+                <TextBlock Text='Max:' FontWeight="Bold" Margin="60 0 0 0" />
+                <TextBox x:Name="GrayMax" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+            </TextBlock>
+        </GroupBox>
+        <GroupBox
+            x:Name="RedGroup"
+            Header="Red"
+            Style="{DynamicResource MaterialDesignGroupBox}"
+            Margin="16 40 16 0"
+            Height="100"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Top"
+            Visibility="Collapsed"
+            materialDesign:ColorZoneAssist.Mode="Custom"
+            materialDesign:ColorZoneAssist.Background="Red"
+            materialDesign:ColorZoneAssist.Foreground="Black">
+            <TextBlock>
+                <TextBlock FontWeight="Bold" Text='Min:' Margin="10 0 0 0" />
+                <TextBox x:Name="RedMin" TextAlignment="Center"  PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+                <TextBlock Text='Max:' FontWeight="Bold" Margin="60 0 0 0" />
+                <TextBox x:Name="RedMax" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+            </TextBlock>
+        </GroupBox>
+        <GroupBox
+            x:Name="GreenGroup"
+            Header="Green"
+            Style="{DynamicResource MaterialDesignGroupBox}"
+            Grid.ColumnSpan="3"
+            Margin="16 150 16 0"
+            Height="100"
+            VerticalAlignment="Top"
+            Visibility="Collapsed"
+            materialDesign:ColorZoneAssist.Mode="Custom"
+            materialDesign:ColorZoneAssist.Background="Green"
+            materialDesign:ColorZoneAssist.Foreground="Black">
+            <TextBlock>
+                <TextBlock FontWeight="Bold" Text='Min:' Margin="10 0 0 0" />
+                <TextBox x:Name="GreenMin" TextAlignment="Center"  PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+                <TextBlock Text='Max:' FontWeight="Bold" Margin="60 0 0 0" />
+                <TextBox x:Name="GreenMax" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+            </TextBlock>
+        </GroupBox>
+        <GroupBox
+            x:Name="BlueGroup"
+            Header="Blue"
+            Style="{DynamicResource MaterialDesignGroupBox}"
+            Margin="16 260 16 0"
+            Height="100"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Top"
+            Visibility="Collapsed"
+            materialDesign:ColorZoneAssist.Mode="Custom"
+            materialDesign:ColorZoneAssist.Background="Blue"
+            materialDesign:ColorZoneAssist.Foreground="Black">
+            <TextBlock>
+                <TextBlock FontWeight="Bold" Text='Min:' Margin="10 0 0 0" />
+                <TextBox x:Name="BlueMin" TextAlignment="Center"  PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+                <TextBlock Text='Max:' FontWeight="Bold" Margin="60 0 0 0" />
+                <TextBox x:Name="BlueMax" TextAlignment="Center" PreviewTextInput="NumberValidationTextBox" Width="50" Margin="0 5 0 0"/>
+            </TextBlock>
+        </GroupBox>
 
     </Grid>
 </UserControl>
