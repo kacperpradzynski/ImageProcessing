@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,11 @@ namespace ImageProcessingCore.Helpers
 					throw new ArgumentException("Only 1, 8, 24 and 32 bit images are supported");
 
 			}
+		}
+
+		public static Bitmap ConvertToPixelFormat(Bitmap input, PixelFormat pixelFormat)
+		{
+			return input.Clone(new Rectangle(0, 0, input.Width, input.Height), pixelFormat);
 		}
 
 		public static byte Range(int color, int min, int max)

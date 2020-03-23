@@ -197,7 +197,14 @@ namespace ImageProcessingView
             var result = ofd.ShowDialog();
             if (result == true)
             {
-                input = new Bitmap(ofd.FileName);
+                Bitmap loadedImage = new Bitmap(ofd.FileName);
+                if (ImageHelper.GetBitsPerPixel(loadedImage.PixelFormat) == 1)
+                {
+                    input = ImageHelper.ConvertToPixelFormat(loadedImage, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+                } else
+                {
+                    input = loadedImage;
+                }
                 BitmapImageInput = new BitmapImage(new Uri(ofd.FileName, UriKind.Absolute));
                 ShowOnHistogram(true);
                 ApplyButton.IsEnabled = true;
