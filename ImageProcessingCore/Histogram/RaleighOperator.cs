@@ -1,4 +1,5 @@
-﻿using ImageProcessingCore.Helpers;
+﻿using ImageProcessingCore.BasicImageOperations;
+using ImageProcessingCore.Helpers;
 using ImageProcessingCore.Strategy;
 using System;
 using System.Collections.Generic;
@@ -110,8 +111,9 @@ namespace ImageProcessingCore.Histogram
 				}
 			}
 			output.UnlockBits(bData);
+			NegativeOperator negative = new NegativeOperator();
 
-			return output;
+			return negative.Process(output);
 		}
 	}
 }
