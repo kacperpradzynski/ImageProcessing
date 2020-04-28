@@ -9,6 +9,6 @@ namespace ImageProcessingCore.Strategy
 {
     public interface IProcessingStrategy
     {
-        unsafe Bitmap Process(Bitmap input);
+        unsafe ImageModel Process(ImageModel input);
     }
 }

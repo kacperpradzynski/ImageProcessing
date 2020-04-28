@@ -12,12 +12,12 @@ namespace ImageProcessingCore.NonLinearFilters
 {
 	public class SobelOperator : IProcessingStrategy
 	{
-		public unsafe Bitmap Process(Bitmap input)
+		public unsafe ImageModel Process(ImageModel input)
 		{
-			Bitmap output = input.Clone(new Rectangle(0, 0, input.Width, input.Height), input.PixelFormat);
+			Bitmap output = input.SpatialDomain.Clone(new Rectangle(0, 0, input.SpatialDomain.Width, input.SpatialDomain.Height), input.SpatialDomain.PixelFormat);
 
 			BitmapData bData = output.LockBits(new Rectangle(0, 0, output.Width, output.Height), ImageLockMode.ReadWrite, output.PixelFormat);
-			BitmapData bDataInput = input.LockBits(new Rectangle(0, 0, input.Width, input.Height), ImageLockMode.ReadWrite, input.PixelFormat);
+			BitmapData bDataInput = input.SpatialDomain.LockBits(new Rectangle(0, 0, input.SpatialDomain.Width, input.SpatialDomain.Height), ImageLockMode.ReadWrite, input.SpatialDomain.PixelFormat);
 			byte* scan0 = (byte*)bData.Scan0.ToPointer();
 			byte* scan0Input = (byte*)bDataInput.Scan0.ToPointer();
 			byte bitsPerPixel = ImageHelper.GetBitsPerPixel(bData.PixelFormat);
@@ -64,10 +64,10 @@ namespace ImageProcessingCore.NonLinearFilters
 					}
 				}
 			}
-			input.UnlockBits(bDataInput);
+			input.SpatialDomain.UnlockBits(bDataInput);
 			output.UnlockBits(bData);
 
-			return output;
+			return new ImageModel(output);
 		}
 	}
 }

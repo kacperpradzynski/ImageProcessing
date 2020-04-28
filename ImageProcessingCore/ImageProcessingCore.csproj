@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,12 +50,22 @@
     <Compile Include="BasicImageOperations\BrightnessOperator.cs" />
     <Compile Include="BasicImageOperations\ContrastOperator.cs" />
     <Compile Include="BasicImageOperations\NegativeOperator.cs" />
+    <Compile Include="FourierOperations\BandPassFilterOperator.cs" />
+    <Compile Include="FourierOperations\BandStopFilterOperator.cs" />
+    <Compile Include="FourierOperations\HighPassFilterOperator.cs" />
+    <Compile Include="FourierOperations\LowPassFilterOperator.cs" />
+    <Compile Include="FourierOperations\PhaseModificationOperator.cs" />
+    <Compile Include="FourierOperations\SpectrumFilterOperator.cs" />
+    <Compile Include="FourierTransform\FFT.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Histogram\HistogramGenerator.cs" />
     <Compile Include="Histogram\RaleighOperator.cs" />
+    <Compile Include="ImageModel.cs" />
     <Compile Include="LinearFilters\ConvolutionFilter.cs" />
     <Compile Include="NonLinearFilters\SobelOperator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Segmentation\ListExtensions.cs" />
+    <Compile Include="Segmentation\SegmentationOperator.cs" />
     <Compile Include="Strategy\ImageProcessor.cs" />
     <Compile Include="Strategy\IProcessingStrategy.cs" />
   </ItemGroup>

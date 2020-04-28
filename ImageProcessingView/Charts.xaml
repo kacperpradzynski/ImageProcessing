@@ -7,13 +7,13 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-            TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-            TextElement.FontWeight="Regular"
-            TextElement.FontSize="13"
-            TextOptions.TextFormattingMode="Ideal"
-            TextOptions.TextRenderingMode="Auto"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal"
+             TextOptions.TextRenderingMode="Auto"
              Background="{DynamicResource MaterialDesignPaper}"
-            FontFamily="{DynamicResource MaterialDesignFont}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
              d:DesignHeight="520" d:DesignWidth="950">
     <Grid>
         <GroupBox
@@ -25,16 +25,16 @@
                     <StackPanel
                         Orientation="Horizontal">
                         <materialDesign:PackIcon
-                            Kind="ImageArea"
+                            Kind="ChartBar"
                             Height="24"
                             Width="24"
-                            Margin="165 0 0 0"
+                            Margin="63 0 0 0"
                             VerticalAlignment="Center" />
                         <TextBlock
           Margin="8,0,0,0"
           VerticalAlignment="Center" 
           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-          Text="Input Image" />
+          Text="Input Image Histogram (Spatial Domain)" />
                     </StackPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>
@@ -48,16 +48,16 @@
                     <StackPanel
                         Orientation="Horizontal">
                         <materialDesign:PackIcon
-                            Kind="ImageArea"
+                            Kind="ChartBar"
                             Height="24"
                             Width="24"
-                            Margin="159 0 0 0"
+                            Margin="57 0 0 0"
                             VerticalAlignment="Center" />
                         <TextBlock
           Margin="8,0,0,0"
           VerticalAlignment="Center" 
           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
-          Text="Output Image" />
+          Text="Output Image Histogram (Spatial Domain)" />
                     </StackPanel>
                 </DataTemplate>
             </GroupBox.HeaderTemplate>

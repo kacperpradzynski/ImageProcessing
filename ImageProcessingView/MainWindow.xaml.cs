@@ -24,6 +24,10 @@ using LiveCharts.Wpf;
 using ImageProcessingCore.Strategy;
 using ImageProcessingView.Operations;
 using ImageProcessingCore.Helpers;
+using ImageProcessingCore;
+using System.Globalization;
+using System.Threading;
+using ImageProcessingCore.Segmentation;
 
 namespace ImageProcessingView
 {
@@ -35,10 +39,13 @@ namespace ImageProcessingView
         private ObservableCollection<string> _operations;
         private string _selectedOperation;
         private UserControl currentOperation;
-        private BitmapImage _bitmapImageInput, _bitmapImageOutput;
+        private BitmapImage _bitmapImageInput, _bitmapImageOutput, _bitmapImageInputMagnitude, _bitmapImageOutputMagnitude, _bitmapImageInputPhase, _bitmapImageOutputPhase;
         public Bitmap input, output;
-        private bool _imagesView, _chartsView, unlocked;
+        private bool unlocked, saveUnlocked = false;
         public ImageProcessor processor;
+        private string activeView;
+        private ImageModel inputImageModel, outputImageModel;
+
 
         public ObservableCollection<string> Operations
         {
@@ -68,29 +75,26 @@ namespace ImageProcessingView
             }
         }
 
-        public bool ImagesView
+        public ImageModel InputImageModel
         {
-            get { return _imagesView; }
+            get { return inputImageModel; }
             set
             {
-                if (_imagesView != value)
+                if (inputImageModel != value)
                 {
-                    _imagesView = value;
-                    OnPropertyChanged();
-                    ChangeActiveView();
+                    inputImageModel = value;
                 }
             }
         }
-        public bool ChartsView
+
+        public ImageModel OutputImageModel
         {
-            get { return _chartsView; }
+            get { return outputImageModel; }
             set
             {
-                if (_chartsView != value)
+                if (outputImageModel != value)
                 {
-                    _chartsView = value;
-                    OnPropertyChanged();
-                    ChangeActiveView();
+                    outputImageModel = value;
                 }
             }
         }
@@ -104,7 +108,6 @@ namespace ImageProcessingView
                 {
                     _bitmapImageInput = value;
                     OnPropertyChanged();
-                    ImagesUserControl.BitmapImageInput = value;
                     HistogramRayleigh.IsRGB = ImageHelper.GetBitsPerPixel(input.PixelFormat) > 8;
                 }
             }
@@ -119,7 +122,58 @@ namespace ImageProcessingView
                 {
                     _bitmapImageOutput = value;
                     OnPropertyChanged();
-                    ImagesUserControl.BitmapImageOutput = value;
+                }
+            }
+        }
+
+        public BitmapImage BitmapImageInputMagnitude
+        {
+            get { return _bitmapImageInputMagnitude; }
+            set
+            {
+                if (_bitmapImageInputMagnitude != value)
+                {
+                    _bitmapImageInputMagnitude = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public BitmapImage BitmapImageOutputMagnitude
+        {
+            get { return _bitmapImageOutputMagnitude; }
+            set
+            {
+                if (_bitmapImageOutputMagnitude != value)
+                {
+                    _bitmapImageOutputMagnitude = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public BitmapImage BitmapImageInputPhase
+        {
+            get { return _bitmapImageInputPhase; }
+            set
+            {
+                if (_bitmapImageInputPhase != value)
+                {
+                    _bitmapImageInputPhase = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public BitmapImage BitmapImageOutputPhase
+        {
+            get { return _bitmapImageOutputPhase; }
+            set
+            {
+                if (_bitmapImageOutputPhase != value)
+                {
+                    _bitmapImageOutputPhase = value;
+                    OnPropertyChanged();
                 }
             }
         }
@@ -128,10 +182,13 @@ namespace ImageProcessingView
         {
             DataContext = this;
             InitializeComponent();
-            Operations = new ObservableCollection<string>() { "Brightness", "Contrast", "Negative" , "Median Filter", "Average Filter", "Convolution Filter", "Sobel Filter", "Raleigh Probability Density" };
+            activeView = "_Image (Spatial Domain)";
+            Operations = new ObservableCollection<string>() { "Brightness", "Contrast", "Negative" , "Median Filter", "Average Filter", "Convolution Filter", "Sobel Filter", "Raleigh Probability Density", "Low Pass Filter", "High Pass Filter", "Band Pass Filter", "Band Stop Filter", "Spectrum Filter", "Phase Modification", "Segmentation (Region Growing)" };
             SelectedOperation = Operations[0];
             this.unlocked = true;
-            ImagesView = true;
+            ImagesUserControl.Visibility = Visibility.Visible;
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
         }
 
         private void ChangeActiveOperation()
@@ -144,26 +201,99 @@ namespace ImageProcessingView
             ConvolutionFilter.Visibility = Visibility.Collapsed;
             SobelFilter.Visibility = Visibility.Collapsed;
             HistogramRayleigh.Visibility = Visibility.Collapsed;
+            LowPassFilter.Visibility = Visibility.Collapsed;
+            HighPassFilter.Visibility = Visibility.Collapsed;
+            BandPassFilter.Visibility = Visibility.Collapsed;
+            BandStopFilter.Visibility = Visibility.Collapsed;
+            SpectrumFilter.Visibility = Visibility.Collapsed;
+            PhaseModification.Visibility = Visibility.Collapsed;
+            Segmentation.Visibility = Visibility.Collapsed;
 
             currentOperation.Visibility = Visibility.Visible;
         }
 
-        private void ChangeActiveView()
+        private void ChangeActiveViewToSegmentation()
         {
+            activeView = "_Segmentation";
+            ViewButton.IsEnabled = false;
+            MagnitudeButton.IsEnabled = false;
+            PhaseButton.IsEnabled = false;
+
             ImagesUserControl.Visibility = Visibility.Collapsed;
             ChartsUserControl.Visibility = Visibility.Collapsed;
+            FrequencyMagnitudeUserControl.Visibility = Visibility.Collapsed;
+            FrequencyPhaseUserControl.Visibility = Visibility.Collapsed;
 
-            if(ImagesView && !ChartsView)
+            SegmentationUserControl.Visibility = Visibility.Visible;
+
+            MasksButton.Visibility = Visibility.Visible;
+            ImageWithMaskButton.Visibility = Visibility.Visible;
+            SegmentedImageButton.Visibility = Visibility.Visible;
+            SegmentationSeparator.Visibility = Visibility.Visible;
+
+            SaveButton.IsEnabled = false;
+        }
+
+        public void ChangeActiveView(object sender, RoutedEventArgs e)
+        {
+            var menuItem = sender as MenuItem;
+            
+            if (!activeView.Equals(menuItem.Header.ToString()))
             {
-                ImagesUserControl.Visibility = Visibility.Visible;
-            } else if (!ImagesView && ChartsView)
-            {
-                ChartsUserControl.Visibility = Visibility.Visible;
+                activeView = menuItem.Header.ToString();
+
+                ImagesUserControl.Visibility = Visibility.Collapsed;
+                ChartsUserControl.Visibility = Visibility.Collapsed;
+                FrequencyMagnitudeUserControl.Visibility = Visibility.Collapsed;
+                FrequencyPhaseUserControl.Visibility = Visibility.Collapsed;
+                SegmentationUserControl.Visibility = Visibility.Collapsed;
+
+                switch (activeView)
+                {
+                    case "_Image (Spatial Domain)":
+                        ImagesUserControl.Visibility = Visibility.Visible;
+                        break;
+                    case "_Histogram (Spatial Domain)":
+                        ChartsUserControl.Visibility = Visibility.Visible;
+                        break;
+                    case "_Magnitude (Frequency Domain)":
+                        FrequencyMagnitudeUserControl.Visibility = Visibility.Visible;
+                        break;
+                    case "_Phase (Frequency Domain)":
+                        FrequencyPhaseUserControl.Visibility = Visibility.Visible;
+                        break;
+                    default:
+                        ImagesUserControl.Visibility = Visibility.Visible;
+                        break;
+                }
             }
         }
 
         private UserControl GetActiveUserControl(string operation)
         {
+            if (!operation.Equals("Segmentation") && activeView.Equals("_Segmentation"))
+            {
+                activeView = "_Image (Spatial Domain)";
+
+                ImagesUserControl.Visibility = Visibility.Collapsed;
+                ChartsUserControl.Visibility = Visibility.Collapsed;
+                FrequencyMagnitudeUserControl.Visibility = Visibility.Collapsed;
+                FrequencyPhaseUserControl.Visibility = Visibility.Collapsed;
+                SegmentationUserControl.Visibility = Visibility.Collapsed;
+
+                ViewButton.IsEnabled = true;
+                MagnitudeButton.IsEnabled = true;
+                PhaseButton.IsEnabled = true;
+                ImagesUserControl.Visibility = Visibility.Visible;
+
+                MasksButton.Visibility = Visibility.Collapsed;
+                ImageWithMaskButton.Visibility = Visibility.Collapsed;
+                SegmentedImageButton.Visibility = Visibility.Collapsed;
+                SegmentationSeparator.Visibility = Visibility.Collapsed;
+
+                SaveButton.IsEnabled = saveUnlocked;
+            }
+
             switch (operation)
             {
                 case "Brightness":
@@ -182,6 +312,21 @@ namespace ImageProcessingView
                     return SobelFilter;
                 case "Raleigh Probability Density":
                     return HistogramRayleigh;
+                case "Low Pass Filter":
+                    return LowPassFilter;
+                case "High Pass Filter":
+                    return HighPassFilter;
+                case "Band Pass Filter":
+                    return BandPassFilter;
+                case "Band Stop Filter":
+                    return BandStopFilter;
+                case "Spectrum Filter":
+                    return SpectrumFilter;
+                case "Phase Modification":
+                    return PhaseModification;
+                case "Segmentation (Region Growing)":
+                    ChangeActiveViewToSegmentation();
+                    return Segmentation;
                 default:
                     return Negative;
             }
@@ -205,57 +350,153 @@ namespace ImageProcessingView
                 {
                     input = loadedImage;
                 }
+                InputImageModel = new ImageModel(input);
+                BitmapImageInputMagnitude = BitmapToBitmapImage(InputImageModel.MagnitudeImage);
+                BitmapImageInputPhase = BitmapToBitmapImage(InputImageModel.PhaseImage);
                 BitmapImageInput = new BitmapImage(new Uri(ofd.FileName, UriKind.Absolute));
+                SegmentationUserControl.BitmapImageInput = BitmapImageInput;
                 ShowOnHistogram(true);
                 ApplyButton.IsEnabled = true;
+                MagnitudeButton.IsEnabled = true;
+                MagnitudeInputButton.IsEnabled = true;
+                PhaseButton.IsEnabled = true;
+                PhaseInputButton.IsEnabled = true;
             }
         }
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (output != null)
+            Bitmap imageToSave;
+            string fileName;
+            switch (((MenuItem)e.Source).Name)
+            {
+                case "SaveButton":
+                    imageToSave = output;
+                    fileName = "Output";
+                    break;
+                case "MagnitudeInputButton":
+                    imageToSave = inputImageModel.MagnitudeImage;
+                    fileName = "Magnitude";
+                    break;
+                case "MagnitudeOutputButton":
+                    imageToSave = outputImageModel.MagnitudeImage;
+                    fileName = "Magnitude";
+                    break;
+                case "PhaseInputButton":
+                    imageToSave = inputImageModel.PhaseImage;
+                    fileName = "Phase";
+                    break;
+                case "PhaseOutputButton":
+                    imageToSave = outputImageModel.PhaseImage;
+                    fileName = "Phase";
+                    break;
+                case "ImageWithMaskButton":
+                    imageToSave = SegmentationUserControl.inputWithMask;
+                    fileName = "ImageWithMask";
+                    break;
+                case "SegmentedImageButton":
+                    imageToSave = SegmentationUserControl.output;
+                    fileName = "SegmentedImage";
+                    break;
+                case "MasksButton":
+                    SaveMasks();
+                    return;
+                default:
+                    imageToSave = input;
+                    fileName = "Input";
+                    break;
+            }
+            if (imageToSave != null)
             {
                 SaveFileDialog sfd = new SaveFileDialog()
                 {
-                    FileName = "Output",
+                    FileName = fileName,
                     Filter = "Image Files (*.bmp;*.jpg;*.jpeg,*.png)|*.BMP;*.JPG;*.JPEG;*.PNG",
                     RestoreDirectory = true
                 };
                 var result = sfd.ShowDialog();
                 if (result == true)
                 {
-                    output.Save(sfd.FileName);
+                    imageToSave.Save(sfd.FileName);
+                }
+            }
+        }
+
+        private void SaveMasks()
+        {
+            string path = ".";
+            System.Windows.Forms.FolderBrowserDialog folderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            if (folderDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                path = folderDialog.SelectedPath;
+                int counter = 1;
+                foreach (var mask in SegmentationUserControl.Masks)
+                {
+                    mask.Bitmap.Save($"{path}/{counter++}_mask.png");
                 }
             }
         }
 
         private void Apply_Click(object sender, RoutedEventArgs e)
         {
-            processor = new ImageProcessor(((IProcessing)currentOperation).GetOperationStrategy(), input);
-            if (input != null && unlocked)
+            try
             {
-                Task.Run(() => Process());
+                processor = new ImageProcessor(((IProcessing)currentOperation).GetOperationStrategy(), inputImageModel);
+                if (input != null && unlocked)
+                {
+                    Task.Run(() => Process());
+                }
+            } catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, currentOperation.Name, MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
         internal void Process()
         {
             unlocked = false;
-            output = processor.Process();
+            OutputImageModel = processor.Process();
+            output = OutputImageModel.SpatialDomain;
+            BitmapImageOutputMagnitude = BitmapToBitmapImage(OutputImageModel.MagnitudeImage);
+            BitmapImageOutputPhase = BitmapToBitmapImage(OutputImageModel.PhaseImage);
+            BitmapImageOutput = BitmapToBitmapImage(output);
+
+            if (activeView.Equals("_Segmentation"))
+            {
+                this.Dispatcher.Invoke(() => {
+                    List<Bitmap> bitmapMasks = ((SegmentationOperator)processor.strategy).masks;
+                    SegmentationUserControl.InitializeMasks(bitmapMasks, input, output);
+
+                    MasksButton.IsEnabled = true;
+                    ImageWithMaskButton.IsEnabled = true;
+                    SegmentedImageButton.IsEnabled = true;
+                });
+                
+            }
+
+            this.Dispatcher.Invoke(() => {
+                if (!activeView.Equals("_Segmentation"))
+                {
+                    SaveButton.IsEnabled = true;
+                }
+                saveUnlocked = true;
+                MagnitudeOutputButton.IsEnabled = true;
+                PhaseOutputButton.IsEnabled = true;
+                ShowOnHistogram(false);
+            });
+            unlocked = true;
+        }
+
+        private BitmapImage BitmapToBitmapImage(Bitmap bitmap)
+        {
             MemoryStream ms = new MemoryStream();
-            output.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
             BitmapImage image = new BitmapImage();
             image.BeginInit();
             ms.Seek(0, SeekOrigin.Begin);
             image.StreamSource = ms;
             image.EndInit();
             image.Freeze();
-            BitmapImageOutput = image;
-            
-            this.Dispatcher.Invoke(() => {
-                SaveButton.IsEnabled = true;
-                ShowOnHistogram(false);
-            });
-            unlocked = true;
+            return image;
         }
 
         private void ShowOnHistogram(bool isInputImage)

@@ -16,6 +16,21 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <PublishUrl>publikuj\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DataGrid2DLibrary">
       <HintPath>.\DataGrid2DLibrary.dll</HintPath>
@@ -55,6 +73,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,7 +93,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MaskModel.cs" />
+    <Compile Include="SegmentationView.xaml.cs">
+      <DependentUpon>SegmentationView.xaml</DependentUpon>
+    </Compile>
     <Page Include="Charts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FrequencyMagnitude.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FrequencyPhase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -92,6 +124,12 @@
     <Compile Include="Charts.xaml.cs">
       <DependentUpon>Charts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FrequencyMagnitude.xaml.cs">
+      <DependentUpon>FrequencyMagnitude.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FrequencyPhase.xaml.cs">
+      <DependentUpon>FrequencyPhase.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Images.xaml.cs">
       <DependentUpon>Images.xaml</DependentUpon>
     </Compile>
@@ -100,6 +138,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Operations\AverageFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Operations\BandPassFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Operations\BandStopFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -115,7 +161,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Operations\HighPassFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Operations\HistogramRayleigh.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Operations\LowPassFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -127,7 +181,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Operations\PhaseModification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Operations\Segmentation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Operations\Sobel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Operations\SpectrumFilter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SegmentationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -135,6 +205,12 @@
   <ItemGroup>
     <Compile Include="Operations\AverageFilter.xaml.cs">
       <DependentUpon>AverageFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Operations\BandPassFilter.xaml.cs">
+      <DependentUpon>BandPassFilter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Operations\BandStopFilter.xaml.cs">
+      <DependentUpon>BandStopFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Operations\Brightness.xaml.cs">
       <DependentUpon>Brightness.xaml</DependentUpon>
@@ -145,18 +221,33 @@
     <Compile Include="Operations\Convolution.xaml.cs">
       <DependentUpon>Convolution.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Operations\HighPassFilter.xaml.cs">
+      <DependentUpon>HighPassFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Operations\HistogramRayleigh.xaml.cs">
       <DependentUpon>HistogramRayleigh.xaml</DependentUpon>
     </Compile>
     <Compile Include="Operations\IProcessing.cs" />
+    <Compile Include="Operations\LowPassFilter.xaml.cs">
+      <DependentUpon>LowPassFilter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Operations\MedianFilter.xaml.cs">
       <DependentUpon>MedianFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Operations\Negative.xaml.cs">
       <DependentUpon>Negative.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Operations\PhaseModification.xaml.cs">
+      <DependentUpon>PhaseModification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Operations\Segmentation.xaml.cs">
+      <DependentUpon>Segmentation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Operations\Sobel.xaml.cs">
       <DependentUpon>Sobel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Operations\SpectrumFilter.xaml.cs">
+      <DependentUpon>SpectrumFilter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -189,6 +280,21 @@
       <Project>{39a8323c-9210-4eb6-a4ea-23ebe075c114}</Project>
       <Name>ImageProcessingCore</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 i x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.3.1.0-ci1045\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.3.1.0-ci1045\build\MaterialDesignThemes.targets')" />

@@ -18,11 +18,11 @@ using System.Windows.Shapes;
 namespace ImageProcessingView
 {
     /// <summary>
-    /// Logika interakcji dla klasy Images.xaml
+    /// Logika interakcji dla klasy FrequencyPhase.xaml
     /// </summary>
-    public partial class Images : UserControl, INotifyPropertyChanged
+    public partial class FrequencyPhase : UserControl, INotifyPropertyChanged
     {
-        public Images()
+        public FrequencyPhase()
         {
             InitializeComponent();
         }

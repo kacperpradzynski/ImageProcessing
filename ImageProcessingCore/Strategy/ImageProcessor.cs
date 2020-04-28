@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
 using System.Threading.Tasks;
 
 namespace ImageProcessingCore.Strategy
 {
     public class ImageProcessor
     {
-        private IProcessingStrategy strategy;
-        private Bitmap input;
+        public IProcessingStrategy strategy;
+        private ImageModel input;
 
-        public ImageProcessor(IProcessingStrategy strategy, Bitmap input)
+        public ImageProcessor(IProcessingStrategy strategy, ImageModel input)
         {
             this.strategy = strategy;
             this.input = input;
         }
 
-        public Bitmap Process()
+        public ImageModel Process()
         {
             return strategy.Process(input);
         }

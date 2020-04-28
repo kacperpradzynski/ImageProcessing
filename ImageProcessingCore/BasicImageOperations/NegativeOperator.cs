@@ -12,9 +12,9 @@ namespace ImageProcessingCore.BasicImageOperations
 {
     public class NegativeOperator : IProcessingStrategy
     {
-        public unsafe Bitmap Process(Bitmap input)
+        public unsafe ImageModel Process(ImageModel input)
         {
-            Bitmap output = input.Clone(new Rectangle(0, 0, input.Width, input.Height), input.PixelFormat);
+            Bitmap output = input.SpatialDomain.Clone(new Rectangle(0, 0, input.SpatialDomain.Width, input.SpatialDomain.Height), input.SpatialDomain.PixelFormat);
 
 			BitmapData bData = output.LockBits(new Rectangle(0, 0, output.Width, output.Height), ImageLockMode.ReadWrite, output.PixelFormat);
 			byte bitsPerPixel = ImageHelper.GetBitsPerPixel(bData.PixelFormat);
@@ -47,7 +47,7 @@ namespace ImageProcessingCore.BasicImageOperations
 			}
 			output.UnlockBits(bData);
 
-			return output;
+			return new ImageModel(output);
         }
     }
 }

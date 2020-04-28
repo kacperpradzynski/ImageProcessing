@@ -15,73 +15,199 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Image Processing Application" Height="720" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+        Title="Image Processing Application" Height="660" Width="1280" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
         <ComboBox Style="{StaticResource MaterialDesignFloatingHintComboBox}"
-                  Margin="24,70,984,0"
+                  Margin="24,125,984,0"
                   ItemsSource="{Binding Operations , Mode=TwoWay}"
                   SelectedItem="{Binding SelectedOperation, Mode=TwoWay}" VerticalAlignment="Top"/>
 
-        <local:Images Visibility="Visible"  x:Name="ImagesUserControl" Margin="305,10,10,100"></local:Images>
-        <local:Charts Visibility="Collapsed" x:Name="ChartsUserControl" Margin="305,10,10,100"></local:Charts>
+        <local:Images Visibility="Visible"  x:Name="ImagesUserControl" Margin="305,10,10,40"></local:Images>
+        <local:FrequencyMagnitude Visibility="Collapsed"  x:Name="FrequencyMagnitudeUserControl" Margin="305,10,10,40"></local:FrequencyMagnitude>
+        <local:FrequencyPhase Visibility="Collapsed"  x:Name="FrequencyPhaseUserControl" Margin="305,10,10,40"></local:FrequencyPhase>
+        <local:Charts Visibility="Collapsed" x:Name="ChartsUserControl" Margin="305,10,10,40"></local:Charts>
+        <local:SegmentationView Visibility="Collapsed" x:Name="SegmentationUserControl" Margin="305,10,10,40"></local:SegmentationView>
 
-        <Button
-            Style="{StaticResource MaterialDesignRaisedLightButton}"
-            Click="Open_Click"
-            VerticalAlignment="Bottom"
-            Margin="0,0,620,43"
-            HorizontalAlignment="Right"
-            Width="200">
-            SELECT IMAGE
-        </Button>
-        <Button
-            Style="{StaticResource MaterialDesignRaisedLightButton}"
-            Click="Save_Click"
-            x:Name="SaveButton"
-            IsEnabled="False"
-            VerticalAlignment="Bottom"
-            Margin="0,0,140,43"
-            HorizontalAlignment="Right"
-            Width="200">
-            SAVE IMAGE
-        </Button>
         <Button
             Click="Apply_Click"
             Style="{StaticResource MaterialDesignRaisedLightButton}"
             IsEnabled="False"
             x:Name="ApplyButton"
             VerticalAlignment="Bottom"
-            Margin="0,0,1010,629"
+            Margin="0,0,1010,514"
             HorizontalAlignment="Right"
             Width="200">
             APPLY
         </Button>
 
-        <StackPanel
-            Margin="0,0,374,623"
-            HorizontalAlignment="Right"
-            Width="218"
-            VerticalAlignment="Bottom"
-            Orientation="Horizontal">
-            <RadioButton
-                Style="{StaticResource MaterialDesignTabRadioButton}"
-                Margin="4"
-                IsChecked="{Binding ImagesView}"
-                Content="IMAGES" />
-            <RadioButton
-                Style="{StaticResource MaterialDesignTabRadioButton}"
-                Margin="4"
-                IsChecked="{Binding ChartsView}"
-                Content="HISTOGRAMS" />
-        </StackPanel>
+        <Menu IsMainMenu="True" Margin="0,0,0,573" Background="LightGray">
+            <MenuItem
+                Header="_File">
+                <MenuItem
+                    Header="Select Input Image"
+                    Click="Open_Click">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="FolderOpenOutline" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem
+                    Header="Save Output Image"
+                    Click="Save_Click"
+                    x:Name="SaveButton"
+                    IsEnabled="False">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ContentSave" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem
+                    Header="Magnitude"
+                    x:Name="MagnitudeButton"
+                    IsEnabled="False">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ImageSearchOutline" />
+                    </MenuItem.Icon>
+                    <MenuItem
+                    Header="Save Input Magnitude"
+                    x:Name="MagnitudeInputButton"
+                    Click="Save_Click"
+                    IsEnabled="False">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon
+                            Kind="ContentSaveOutline" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                    Header="Save Output Magnitude"
+                    x:Name="MagnitudeOutputButton"
+                    Click="Save_Click"
+                    IsEnabled="False">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon
+                            Kind="ContentSave" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem
+                    Header="Phase"
+                    x:Name="PhaseButton"
+                    IsEnabled="False">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="MessageImageOutline" />
+                    </MenuItem.Icon>
+                    <MenuItem
+                    Header="Save Input Phase"
+                    x:Name="PhaseInputButton"
+                    Click="Save_Click"
+                    IsEnabled="False">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon
+                            Kind="ContentSaveOutline" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                    Header="Save Output Phase"
+                    x:Name="PhaseOutputButton"
+                    Click="Save_Click"
+                    IsEnabled="False">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon
+                            Kind="ContentSave" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+                <Separator x:Name="SegmentationSeparator" Visibility="Collapsed" />
+                <MenuItem
+                    Header="Save Segmented Image"
+                    Click="Save_Click"
+                    x:Name="SegmentedImageButton"
+                    IsEnabled="False"
+                    Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ImageAspectRatio" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Header="Save Input Image with Mask"
+                    Click="Save_Click"
+                    x:Name="ImageWithMaskButton"
+                    IsEnabled="False"
+                    Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ImageFilter" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Header="Save Masks"
+                    Click="Save_Click"
+                    x:Name="MasksButton"
+                    IsEnabled="False"
+                    Visibility="Collapsed">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ImageFilterCenterFocusStrong" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem
+                Header="_View"
+                x:Name="ViewButton">
+                <MenuItem
+                    Header="_Image (Spatial Domain)"
+                    Click="ChangeActiveView">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ImageArea" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Header="_Histogram (Spatial Domain)"
+                    Click="ChangeActiveView">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ChartBar" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Header="_Magnitude (Frequency Domain)"
+                    Click="ChangeActiveView">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="ImageSearchOutline" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Header="_Phase (Frequency Domain)"
+                    Click="ChangeActiveView">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon
+                            Kind="MessageImageOutline" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
 
-        <operations:Brightness x:Name="Brightness" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Brightness>
-        <operations:Contrast x:Name="Contrast" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Contrast>
-        <operations:Negative x:Name="Negative" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Negative>
-        <operations:MedianFilter x:Name="MedianFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:MedianFilter>
-        <operations:AverageFilter x:Name="AverageFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:AverageFilter>
-        <operations:Convolution x:Name="ConvolutionFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Convolution>
-        <operations:HistogramRayleigh x:Name="HistogramRayleigh" Visibility="Collapsed" Margin="8,140,0,0" Height="424" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:HistogramRayleigh>
-        <operations:Sobel x:Name="SobelFilter" Visibility="Collapsed" Margin="8,140,0,0" Height="478" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Sobel>
+        <operations:Brightness x:Name="Brightness" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Brightness>
+        <operations:Contrast x:Name="Contrast" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Contrast>
+        <operations:Negative x:Name="Negative" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Negative>
+        <operations:MedianFilter x:Name="MedianFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:MedianFilter>
+        <operations:AverageFilter x:Name="AverageFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:AverageFilter>
+        <operations:Convolution x:Name="ConvolutionFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Convolution>
+        <operations:HistogramRayleigh x:Name="HistogramRayleigh" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:HistogramRayleigh>
+        <operations:Sobel x:Name="SobelFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Sobel>
+        <operations:LowPassFilter x:Name="LowPassFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:LowPassFilter>
+        <operations:HighPassFilter x:Name="HighPassFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:HighPassFilter>
+        <operations:BandPassFilter x:Name="BandPassFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:BandPassFilter>
+        <operations:BandStopFilter x:Name="BandStopFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:BandStopFilter>
+        <operations:SpectrumFilter x:Name="SpectrumFilter" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:SpectrumFilter>
+        <operations:PhaseModification x:Name="PhaseModification" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:PhaseModification>
+        <operations:Segmentation x:Name="Segmentation" Visibility="Collapsed" Margin="8,195,0,0" Height="385" VerticalAlignment="Top" HorizontalAlignment="Left" Width="294"></operations:Segmentation>
     </Grid>
 </Window>

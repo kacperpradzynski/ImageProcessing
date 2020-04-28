@@ -23,10 +23,10 @@ namespace ImageProcessingCore.Histogram
 			this.bMin = bMin;
 			this.bMax = bMax;
 		}
-		public unsafe Bitmap Process(Bitmap input)
+		public unsafe ImageModel Process(ImageModel input)
 		{
-			Bitmap output = input.Clone(new Rectangle(0, 0, input.Width, input.Height), input.PixelFormat);
-			List<int[]> histogram = HistogramGenerator.Generate(input);
+			Bitmap output = input.SpatialDomain.Clone(new Rectangle(0, 0, input.SpatialDomain.Width, input.SpatialDomain.Height), input.SpatialDomain.PixelFormat);
+			List<int[]> histogram = HistogramGenerator.Generate(input.SpatialDomain);
 			BitmapData bData = output.LockBits(new Rectangle(0, 0, output.Width, output.Height), ImageLockMode.ReadWrite, output.PixelFormat);
 			byte bitsPerPixel = ImageHelper.GetBitsPerPixel(bData.PixelFormat);
 			byte* scan0 = (byte*)bData.Scan0.ToPointer();
@@ -36,7 +36,7 @@ namespace ImageProcessingCore.Histogram
 			double[] logRed = new double[256];
 			double[] logGreen = new double[256];
 			double[] logBlue = new double[256];
-			int N = input.Width * input.Height;
+			int N = input.SpatialDomain.Width * input.SpatialDomain.Height;
 
 			if (bitsPerPixel == 8)
 			{
@@ -113,7 +113,7 @@ namespace ImageProcessingCore.Histogram
 			output.UnlockBits(bData);
 			NegativeOperator negative = new NegativeOperator();
 
-			return negative.Process(output);
+			return negative.Process(new ImageModel(output, input.FrequencyDomain));
 		}
 	}
 }
